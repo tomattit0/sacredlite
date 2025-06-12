@@ -249,20 +249,20 @@ string usarItem(int id, int nivel, int Opcion){
 			}
 			stats();
 			Inventario[Opcion].id = 0;
-			return "\nUsaste Pocion de Curacion.\nRegeneraste " + std::to_string(cnt) + " de salud (" + std::to_string(Jugador.Salud) + "/" + std::to_string(Jugador.SaludMax) + ")."; 
+			return "\nUsaste Pocion de Curacion.\nRegeneraste " + std::to_string(cnt) + " de salud (" + std::to_string(Jugador.Salud) + "/" + std::to_string(Jugador.SaludMax) + ").\n"; 
 		}
 		else{
-			return "\nNo puedes usar esto si tu salud esta intacta.";
+			return "\nNo puedes usar esto si tu salud esta intacta.\n";
 		}
 	}
 	else if (id == 2){ // Pocion del mentor
 		if (mentorActivo == false){
 			mentorActivo = true;
 			Inventario[Opcion].id = 0;
-			return "\nUsaste Pocion del Mentor.\nRecibiras el doble de XP en tu proximo combate."; 
+			return "\nUsaste Pocion del Mentor.\nRecibiras el doble de XP en tu proximo combate.\n"; 
 		}
 		else{
-			return "\nNo puedes usar esto si ya tienes una pocion del mentor activa.";
+			return "\nNo puedes usar esto si ya tienes una pocion del mentor activa.\n";
 		}
 	}
 	else if (id == 7){ // Pocion del turno
@@ -270,14 +270,14 @@ string usarItem(int id, int nivel, int Opcion){
 			if (enCombate == true){
 				turnoActivo = true;
 				Inventario[Opcion].id = 0;
-				return "\nUsaste Pocion del Turno.\nTendras doble turno en tu proximo combate."; 
+				return "\nUsaste Pocion del Turno.\nTendras doble turno en tu proximo combate.\n"; 
 			}
 			else{
-				return "\nNo puedes usar esto si no estas en combate.";
+				return "\nNo puedes usar esto si no estas en combate.\n";
 			}
 		}
 		else{
-			return "\nNo puedes usar esto si ya tienes una pocion del turno activa.";
+			return "\nNo puedes usar esto si ya tienes una pocion del turno activa.\n";
 		}
 	}
 	return "Invalido.";
@@ -894,15 +894,15 @@ void inv(){ // Inventario
 	else if(Opcion == 2){
 		cout << "\nQue numero de item deseas usar? ";
 		cin >> Opcion;
-		if (Inventario[Opcion].id != 0){ // Significa que el item es valido
-			if (Inventario[Opcion].Datos.Tipo == "?"){
-				if (Inventario[Opcion].DatosB.Nombre == "?"){
-					texto2 = usarItem(Inventario[Opcion].id, Inventario[Opcion].nivel, Opcion);	
+		if (Inventario[Opcion-1].id != 0){ // Significa que el item es valido
+			if (Inventario[Opcion-1].Datos.Tipo == "?"){
+				if (Inventario[Opcion-1].DatosB.Nombre == "?"){
+					texto2 = usarItem(Inventario[Opcion-1].id, Inventario[Opcion-1].nivel, Opcion);	
 				}
 				else{
-					if (Inventario[Opcion].DatosB.enUso == true){
-						texto2 = "Desequipaste " + Inventario[Opcion].DatosB.Nombre + ". Haz vuelto a tu armadura inicial.";
-						Inventario[Opcion].DatosB.enUso = false;
+					if (Inventario[Opcion-1].DatosB.enUso == true){
+						texto2 = "Desequipaste " + Inventario[Opcion-1].DatosB.Nombre + ". Haz vuelto a tu armadura inicial.";
+						Inventario[Opcion-1].DatosB.enUso = false;
 						Jugador.ArmaduraEquipada.Nombre = "Armadura del Novato";
 						Jugador.ArmaduraEquipada.RESF = 5 + (2 * Jugador.Nivel);
 						Jugador.ArmaduraEquipada.RESFG = 0;
@@ -911,7 +911,7 @@ void inv(){ // Inventario
 						Jugador.ArmaduraEquipada.Nvl = Jugador.Nivel;
 					}
 					else{
-						for (int i=0;i<20;i++){
+						for (int i=0;i<Inventario.size();i++){
 							Inventario[i].DatosB.enUso = false;
 						}
 						texto2 = equiparArmadura(Opcion);
